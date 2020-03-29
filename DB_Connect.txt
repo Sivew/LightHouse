@@ -1,0 +1,5 @@
+Endpoint:lhtestdb.ciy0mdpdswpo.ap-south-1.rds.amazonaws.com
+Port
+3306
+
+User: adminbhai
