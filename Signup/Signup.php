@@ -10,7 +10,7 @@ $email    = "";
 $errors = array(); 
 
 // connect to the database
-$db = mysqli_connect('lhtestdb.ciy0mdpdswpo.ap-south-1.rds.amazonaws.com', 'adinbhai', 'Kada123', 'user');
+$db = mysqli_connect('lhtestdb.ciy0mdpdswpo.ap-south-1.rds.amazonaws.com', 'adminbhai', 'Kadal123', 'user');
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
