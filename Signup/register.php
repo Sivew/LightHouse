@@ -15,16 +15,20 @@
 		<?php include('errors.php'); ?>
 
 		<div class="input-group">
-		  <label>Username</label>
-		  <input type="text" name="username" value="">
+		  <label>Firstname</label>
+		  <input type="text" name="firstname" value="">
+		</div>
+		<div class="input-group">
+		  <label>Lastname</label>
+		  <input type="text" name="lastname" value="">
 		</div>
 		<div class="input-group">
 		  <label>INDoSNo</label>
-		  <input type="text" name="INDoSNo" value="">
+		  <input type="text" name="indosno" value="">
 		</div>
 		<div class="input-group">
 		  <label>Birthday</label>
-		  <input type="date" name="DoB" value="">
+		  <input type="date" name="dob" value="">
 		</div>
 		<div class="input-group">
 		  <label>Email</label>
