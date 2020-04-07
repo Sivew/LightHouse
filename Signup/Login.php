@@ -17,7 +17,7 @@
 
 		<div class="input-group">
 			<label>Email</label>
-			<input type="text" name="email" >
+			<input type="text" name="email" value=<?php echo $_SESSION['email'] ?>>
 		</div>
 		<div class="input-group">
 			<label>Password</label>
