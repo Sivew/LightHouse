@@ -9,6 +9,7 @@
 	$email    = "";
 	$errors = array(); 
 	$_SESSION['success'] = "";
+	$_SESSION['olduser'] = false;
 
 	// connect to database
 	$db = mysqli_connect('lhtestdb.ciy0mdpdswpo.ap-south-1.rds.amazonaws.com:3306', 'adminbhai', 'Kadal123', 'User');
@@ -36,20 +37,34 @@
 			array_push($errors, "The two passwords do not match");
 		}
 
-		// register user if there are no errors in the form
-		if (count($errors) == 0) {
-			$password = md5($password_1);//encrypt the password before saving in the database
-			$query = "INSERT INTO Sign_up_entry (firstname, lastname, indosno, dob, email, password) 
-					  VALUES('$firstname', '$lastname', '$indosno', '$dob', '$email', '$password')";
-			mysqli_query($db, $query)or die(mysqli_error($db));
+		// check user exists in the DB 
+		$query = "SELECT * FROM Sign_up_entry WHERE email='$email'";
+		$results = mysqli_query($db, $query);
+		if (mysqli_num_rows($results) == 0) {
+				// register user if there are no errors in the form
+				if (count($errors) == 0) {
+					$password = md5($password_1); 
+					$query = "INSERT INTO Sign_up_entry (firstname, lastname, indosno, dob, email, password) 
+							VALUES('$firstname', '$lastname', '$indosno', '$dob', '$email', '$password')";
+					mysqli_query($db, $query)or die(mysqli_error($db));
+					$username = $firstname ." ". $lastname;
+					$_SESSION['username'] = $username;
+					$_SESSION['success'] = "You are now logged in";
+					header('location: index.php');
+				}
+		} else {
+			while ($row = $results->fetch_assoc()) {
+				$firstname = $row["firstname"];
+				$lastname = $row["lastname"];
+			}
 			$username = $firstname ." ". $lastname;
 			$_SESSION['username'] = $username;
-			$_SESSION['success'] = "You are now logged in";
+			$_SESSION['email'] = $email;
+			$_SESSION['olduser'] = true;
+			$_SESSION['success'] = "Welcome back mate $username";
 			header('location: index.php');
 		}
-
 	}
-
 	// ... 
 
 	// LOGIN USER
@@ -69,10 +84,12 @@
 			$query = "SELECT * FROM Sign_up_entry WHERE email='$email' AND password='$password'";
 			$results = mysqli_query($db, $query);
 			 while ($row = $results->fetch_assoc()) {
-				$field1name = $row["firstname"];
-				$field2name = $row["lastname"];
+				$firstname = $row["firstname"];
+				$lastname = $row["lastname"];
+				$indosno = $row["indosno"];
+				$dob = $row["dob"];
 			 }	
-			$username = $field1name ." ". $field2name;
+			$username = $firstname ." ". $lastname;
 
 			if (mysqli_num_rows($results) == 1) {
 				$_SESSION['username'] = $username;
@@ -83,5 +100,4 @@
 			}
 		}
 	}
-
 ?>
