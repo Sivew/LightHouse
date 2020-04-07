@@ -1,14 +1,17 @@
 <?php 
 	session_start(); 
+	$email    = " ";
 
 	if (!isset($_SESSION['username'])) {
 		$_SESSION['msg'] = "You must log in first";
+		$_SESSION['email'] = $email;
 		header('location: login.php');
 	}
 
 	if (isset($_GET['logout'])) {
-		session_destroy();
+		//session_destroy();
 		unset($_SESSION['username']);
+		$_SESSION['email'] = $email;
 		header("location: login.php");
 	}
 
@@ -35,13 +38,20 @@
 					?>
 				</h3>
 			</div>
-		<?php endif ?>
-
+			<?php endif ?>
 		<!-- logged in user information -->
-		<?php  if (isset($_SESSION['username'])) : ?>
+		<?php  if (isset($_SESSION['username']) AND $_SESSION['olduser'] == 0) {?>
 			<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
 			<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
-		<?php endif ?>
+		<?php } elseif ($_SESSION['olduser'] == 1) { ?>
+			<p align ='center'>You have already registered with us on <br> 
+			 Email: <strong><?php echo $_SESSION['email'];  ?></strong><br>
+			 Just enter the password to login</p>
+			<p align ='right'> <a href="login.php" style="color: green;">Login</a> </p>
+		<?php } else {
+			unset($_SESSION['username']);
+			header('location: login.php');
+		} ?>
 	</div>
 		
 </body>
